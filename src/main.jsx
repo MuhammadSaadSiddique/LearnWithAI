@@ -4,11 +4,16 @@ import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import GetStarted from './pages/GetStarted';
 
 const router = createBrowserRouter([
   {
     path: '/*',
     element: <App />,
+  },
+  {
+    path: '/sign_up',
+    element: <GetStarted />
   }
 ])
 
