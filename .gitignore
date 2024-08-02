@@ -1,0 +1,73 @@
+# Node modules
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*.local
+
+# IDE and editor directories
+.vscode/
+.idea/
+
+# Package lock files (if you are using Yarn, comment out this line)
+package-lock.json
+
+# Yarn lock file (if you are using npm, comment out this line)
+yarn.lock
+
+# Miscellaneous
+*.swp
+*.swo
+*.swn
+*.tmp
+*.bak
+
+# Coverage reports
+coverage/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Next.js build output
+.next/
+
+# Next.js cache
+.next/cache/
+
+# Next.js export output
+out/
+
+# React Native
+*.xcuserstate
+*.xcscheme
+*.xcodeproj
+*.xcworkspace
+
+# Expo
+.expo/
+.expo-shared/
+
+# Mac OS X
+*.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
