@@ -4,5 +4,5 @@ boto3==1.28.4
 pandas==2.0.1
 docx==0.2.4
 python-docx==0.8.11
-tqdm==4.65.0
+tqdm==4.66.3
 Pillow==9.5.0
