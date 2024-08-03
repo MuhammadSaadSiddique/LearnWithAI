@@ -1,11 +1,14 @@
-.complete-screen-container {
-    display: grid;
-    width: 100vw;
+.full-screen {
     height: 100vh;
-    grid-template-columns: 35vw 30vw 35vw;
-    align-items: center;
+    width: 100vw !important;
 }
 
-.title {
-    text-align: center;
+.background {
+    background-image: linear-gradient(rgba(5,10,35,0.75),rgba(5,10,35,0.75)), url("./../utils/images/sign-up.jpg");
+}
+
+@media(min-width: 1920px) {
+    .full-screen {
+        min-width: 1920px;
+    }
 }
