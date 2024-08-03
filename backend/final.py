@@ -7,6 +7,8 @@ import os
 import uuid
 import re
 from tqdm import tqdm
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+import torch
 
 app = Flask(__name__)
 
@@ -43,9 +45,47 @@ session = boto3.Session(
 )
 s3_client = session.client('s3', endpoint_url=DO_ENDPOINT_URL)
 
-# OpenAI API setup
-openai_api_key = 'sk-'
-os.environ['OPENAI_API_KEY'] = openai_api_key
+# Falcon Model setup
+model_name = "tiiuae/falcon-7b"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+pipeline = pipeline(
+    "text-generation",
+    model=AutoModelForCausalLM.from_pretrained(model_name),
+    tokenizer=tokenizer,
+    torch_dtype=torch.bfloat16,
+    trust_remote_code=True,
+    device_map="auto"
+)
+
+def generate_content_and_quiz(topic_name):
+    # Generate content with Falcon 7B
+    prompt = f"Generate detailed content and quiz for the topic: {topic_name}"
+    sequences = pipeline(
+        prompt,
+        max_length=500,
+        do_sample=True,
+        top_k=10,
+        num_return_sequences=1,
+        eos_token_id=tokenizer.eos_token_id,
+    )
+    content = sequences[0]['generated_text']
+    
+    # Mock quiz generation (you can replace this with real logic)
+    quiz_questions = [
+        {
+            "question": f"What is the main concept of {topic_name}?",
+            "options": ["Option A", "Option B", "Option C", "Option D"],
+            "answer": "Option A"
+        },
+        {
+            "question": f"Why is {topic_name} important?",
+            "options": ["Option A", "Option B", "Option C", "Option D"],
+            "answer": "Option B"
+        }
+    ]
+    
+    quiz = {"questions": quiz_questions}
+    return content, quiz
 
 def extract_values(csv_file):
     data = pd.read_csv(csv_file)
@@ -168,34 +208,6 @@ def upload_to_digitalocean(video_file, book, grade, chapter, heading, topic):
         print(f"Error uploading {video_file} to DigitalOcean Spaces:", e)
         return None
 
-def generate_content_and_quiz(topic_name):
-    # For demonstration purposes, we'll generate content and quiz based on the topic_name
-    # This is a placeholder for actual content generation logic, which might involve AI models or external APIs
-    
-    # Example content generation (mock)
-    content = f"This is detailed content about {topic_name}. The content provides a comprehensive explanation of the topic."
-
-    # Example quiz generation (mock)
-    quiz_questions = [
-        {
-            "question": f"What is the main concept of {topic_name}?",
-            "options": ["Option A", "Option B", "Option C", "Option D"],
-            "answer": "Option A"
-        },
-        {
-            "question": f"Why is {topic_name} important?",
-            "options": ["Option A", "Option B", "Option C", "Option D"],
-            "answer": "Option B"
-        }
-    ]
-
-    # Convert quiz questions to a JSON string
-    quiz = {
-        "questions": quiz_questions
-    }
-
-    return content, quiz
-
 def regenerate_content_quiz(topic_id_str):
     # Convert the string ID to ObjectId
     try:
@@ -242,56 +254,66 @@ def regenerate_content_quiz(topic_id_str):
         return
     book_name = book_data.get('name')
 
-    # Generate new content and quiz
+    # Retrieve the topic name
     topic_name = topic_data.get('name')
+
+    # Generate new content and quiz
     content, quiz = generate_content_and_quiz(topic_name)
 
-    # Placeholder for video link (actual logic to generate or retrieve video link should be implemented here)
-    video_link = "https://example.com/video"
+    # Retrieve video link (if any)
+    video_link = topic_data.get('video_link', '')
 
     # Update topic with new content and quiz
-    topics_col.update_one({'_id': topic_id}, {'$set': {'content': content, 'quiz': quiz, 'video_link': video_link}})
+    topics_col.update_one(
+        {'_id': topic_id},
+        {'$set': {'content': content, 'quiz': quiz}}
+    )
 
-    print(f"Updated topic {topic_name} with new content and quiz.")
+    return content, quiz, video_link
 
-@app.route('/upload-video', methods=['POST'])
-def upload_video():
-    file = request.files.get('video')
-    book = request.form.get('book')
-    grade = request.form.get('grade')
-    chapter = request.form.get('chapter')
-    heading = request.form.get('heading')
-    topic = request.form.get('topic')
+@app.route('/upload', methods=['POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and file.filename.endswith('.csv'):
+            filename = uuid.uuid4().hex + '.csv'
+            file.save(os.path.join('uploads', filename))
+            csv_file = os.path.join('uploads', filename)
 
-    if file and file.filename:
-        file_path = os.path.join('/tmp', file.filename)
-        file.save(file_path)
+            # Extract values from CSV and store to MongoDB
+            data = extract_values(csv_file)
+            for book, grades in data.items():
+                for grade, chapters in grades.items():
+                    for chapter, headings in chapters.items():
+                        for heading, topics in headings.items():
+                            for topic in topics:
+                                # Generate content and quiz
+                                content, quiz = generate_content_and_quiz(topic)
 
-        video_url = upload_to_digitalocean(file_path, book, grade, chapter, heading, topic)
+                                # Upload video to DigitalOcean Spaces
+                                video_file = 'path_to_your_video_file.mp4'
+                                video_link = upload_to_digitalocean(video_file, book, grade, chapter, heading, topic)
 
-        # Clean up local file
-        os.remove(file_path)
+                                # Store data in MongoDB
+                                store_to_mongodb(book, grade, chapter, heading, topic, content, quiz, video_link)
 
-        if video_url:
-            return jsonify({"video_url": video_url}), 200
+            return jsonify({'status': 'success'})
         else:
-            return jsonify({"error": "Failed to upload video"}), 500
-    else:
-        return jsonify({"error": "No video file provided"}), 400
+            return jsonify({'status': 'error', 'message': 'Invalid file type'}), 400
+
+@app.route('/retrieve', methods=['GET'])
+def retrieve():
+    data = retrieve_data_from_mongodb()
+    return jsonify(data)
 
 @app.route('/regenerate', methods=['POST'])
 def regenerate():
-    data = request.get_json()
-    if not data:
-        return jsonify({"error": "No data provided"}), 400
-
-    topic_id_str = data.get("topic_id")
-    if not topic_id_str:
-        return jsonify({"error": "No topic ID provided"}), 400
-
-    regenerate_content_quiz(topic_id_str)
-
-    return jsonify({"status": "Regeneration in progress"}), 200
+    topic_id_str = request.json.get('topic_id')
+    content, quiz, video_link = regenerate_content_quiz(topic_id_str)
+    if content is not None and quiz is not None:
+        return jsonify({'content': content, 'quiz': quiz, 'video_link': video_link})
+    else:
+        return jsonify({'status': 'error', 'message': 'Failed to regenerate content and quiz'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
