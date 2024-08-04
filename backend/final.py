@@ -13,12 +13,10 @@ import torch
 app = Flask(__name__)
 
 ALLOWED_ORIGINS = [
-    'https://brainjee.com',
-    'https://sai-project.vercel.app',
-    'https://vaisage.com',
     'http://localhost:3000/',
 ]
 
+AI71_API_KEY = "ai71-api-bd8523eb-052d-478a-9967-fa02af9c98af"
 # MongoDB Connection
 client = MongoClient('mongodb://localhost:27017/')
 db = client.education_db
@@ -33,17 +31,17 @@ quizzes_col = db.quizzes
 tasks_col = db.tasks
 
 # DigitalOcean Spaces setup
-DO_ACCESS_KEY_ID = 'your_do_access_key'
-DO_SECRET_ACCESS_KEY = 'your_do_secret_key'
-DO_REGION_NAME = 'your_do_region_name'  # e.g., 'nyc3'
-DO_BUCKET_NAME = 'your_do_bucket_name'
-DO_ENDPOINT_URL = f'https://{DO_REGION_NAME}.digitaloceanspaces.com'
-session = boto3.Session(
-    aws_access_key_id=DO_ACCESS_KEY_ID,
-    aws_secret_access_key=DO_SECRET_ACCESS_KEY,
-    region_name=DO_REGION_NAME
-)
-s3_client = session.client('s3', endpoint_url=DO_ENDPOINT_URL)
+# DO_ACCESS_KEY_ID = 'your_do_access_key'
+# DO_SECRET_ACCESS_KEY = 'your_do_secret_key'
+# DO_REGION_NAME = 'your_do_region_name'  # e.g., 'nyc3'
+# DO_BUCKET_NAME = 'your_do_bucket_name'
+# DO_ENDPOINT_URL = f'https://{DO_REGION_NAME}.digitaloceanspaces.com'
+# session = boto3.Session(
+#     aws_access_key_id=DO_ACCESS_KEY_ID,
+#     aws_secret_access_key=DO_SECRET_ACCESS_KEY,
+#     region_name=DO_REGION_NAME
+# )
+# s3_client = session.client('s3', endpoint_url=DO_ENDPOINT_URL)
 
 # Falcon Model setup
 model_name = "tiiuae/falcon-7b"
@@ -200,13 +198,13 @@ def upload_to_digitalocean(video_file, book, grade, chapter, heading, topic):
         print(f"Video file not found: {video_file}")
         return None
 
-    try:
-        s3_client.upload_file(video_file, DO_BUCKET_NAME, object_name)
-        video_url = f"https://{DO_BUCKET_NAME}.{DO_ENDPOINT_URL}/{object_name}"
-        return video_url
-    except Exception as e:
-        print(f"Error uploading {video_file} to DigitalOcean Spaces:", e)
-        return None
+    # try:
+    #     s3_client.upload_file(video_file, DO_BUCKET_NAME, object_name)
+    #     video_url = f"https://{DO_BUCKET_NAME}.{DO_ENDPOINT_URL}/{object_name}"
+    #     return video_url
+    # except Exception as e:
+    #     print(f"Error uploading {video_file} to DigitalOcean Spaces:", e)
+    #     return None
 
 def regenerate_content_quiz(topic_id_str):
     # Convert the string ID to ObjectId
