@@ -5,6 +5,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Home from './pages/Home/Home';
+import Email from './pages/Email';
+
 // import About from './pages/About/About';
 // import Contact from './pages/Contact/Contact';
 // import Courses from './pages/Courses/Courses';

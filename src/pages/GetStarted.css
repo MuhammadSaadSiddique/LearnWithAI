@@ -6,9 +6,3 @@
 .background {
     background-image: linear-gradient(rgba(5,10,35,0.75),rgba(5,10,35,0.75)), url("./../utils/images/sign-up.jpg");
 }
-
-@media(min-width: 1920px) {
-    .full-screen {
-        min-width: 1920px;
-    }
-}
