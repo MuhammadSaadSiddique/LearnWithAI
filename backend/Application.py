@@ -9,11 +9,6 @@ load_dotenv()
 
 hf_api_key = os.environ.get('hf_api_key')
 # hf_api_key="hf_**********"
-num_questions=10
-topic="Gravity"
-grade="9"
-Country="Pakistan"
-prompt=f"Generate preassement  {num_questions} quiz questions on the topic: {topic} with choices with correct options for grade {grade}"
 # generator = pipeline("text-generation", model="gpt2", use_auth_token=hf_api_key)
 
 # Falcon Model setup
@@ -70,6 +65,11 @@ def FalconModel(prompt):
 
 import re
 def generateQuiz():
+	num_questions=10
+	topic="Gravity"
+	grade="9"
+	Country="Pakistan"
+	prompt=f"Generate preassement  {num_questions} quiz questions on the topic: {topic} with choices with correct options for grade {grade}"
 	content=Zephyr_propmt(propmt=prompt)
 	# # print(content)
 	question , correct_answers=re.split(r'\n\n \n',content)

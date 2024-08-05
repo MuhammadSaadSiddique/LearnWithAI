@@ -31,17 +31,17 @@ quizzes_col = db.quizzes
 tasks_col = db.tasks
 
 # DigitalOcean Spaces setup
-# DO_ACCESS_KEY_ID = 'your_do_access_key'
-# DO_SECRET_ACCESS_KEY = 'your_do_secret_key'
-# DO_REGION_NAME = 'your_do_region_name'  # e.g., 'nyc3'
-# DO_BUCKET_NAME = 'your_do_bucket_name'
-# DO_ENDPOINT_URL = f'https://{DO_REGION_NAME}.digitaloceanspaces.com'
-# session = boto3.Session(
-#     aws_access_key_id=DO_ACCESS_KEY_ID,
-#     aws_secret_access_key=DO_SECRET_ACCESS_KEY,
-#     region_name=DO_REGION_NAME
-# )
-# s3_client = session.client('s3', endpoint_url=DO_ENDPOINT_URL)
+DO_ACCESS_KEY_ID = 'learnwithai'
+DO_SECRET_ACCESS_KEY = ''# env key
+DO_REGION_NAME = 'nyc3'  # e.g., 'nyc3' 
+DO_BUCKET_NAME = 'learnwithai'
+DO_ENDPOINT_URL = f'https://{DO_REGION_NAME}.digitaloceanspaces.com'
+session = boto3.Session(
+    aws_access_key_id=DO_ACCESS_KEY_ID,
+    aws_secret_access_key=DO_SECRET_ACCESS_KEY,
+    region_name=DO_REGION_NAME
+)
+s3_client = session.client('s3', endpoint_url=DO_ENDPOINT_URL)
 
 # Falcon Model setup
 model_name = "tiiuae/falcon-7b"
@@ -67,7 +67,7 @@ def generate_content_and_quiz(topic_name):
         eos_token_id=tokenizer.eos_token_id,
     )
     content = sequences[0]['generated_text']
-    
+    question_blocks = re.split(r'\d+\.', content)
     # Mock quiz generation (you can replace this with real logic)
     quiz_questions = [
         {
