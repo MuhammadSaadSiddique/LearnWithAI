@@ -72,3 +72,16 @@ ehthumbs.db
 # Linux
 *~
 env/
+
+# Backend
+backend/.env
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+
+# Frontend
+frontend/node_modules/
+frontend/.env
+
+# General
+.DS_Store
