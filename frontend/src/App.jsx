@@ -39,7 +39,7 @@ function App() {
                 {/* <Nav.Link to="/sign_up">
                   <button type='button' className="btn btn-outline-light btn-sm mx-0 mx-sm-2 my-2 my-sm-0 text-light hero-header-buttons"> Sign up </button>
                 </Nav.Link> */}
-                <Nav.Link to="/login">
+                <Nav.Link as={Link} to="/login">
                   <button type='button' className='btn btn-outline-light btn-sm mx-0 mx-sm-2 my-0 my-sm-0 text-light hero-header-buttons'> Log in </button>
                 </Nav.Link>
               {/* </div> */}
