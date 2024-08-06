@@ -1,4 +1,49 @@
 .full-screen {
     height: 100vh;
     width: 100vw;
+<<<<<<< HEAD
+=======
+    background-color: white;
+}
+
+.personal-card {
+    height: 30%;
+    background-color: white;
+    width: 30vw;
+    height: 40vh;
+    border-radius: 0.75cm;
+    border-color: brown;
+    border: 1cm;
+}
+
+.image-container {
+    background-image: url('./../utils/images/log-in.jpg');
+    background-repeat: no-repeat;
+    background-position: 70% 90%;
+    max-width: 60vw;
+    height: 100vh;
+}
+
+@media (orientation: portrait)
+{
+    .full-screen {
+        flex-direction: column;
+    }
+
+    .image-container {
+        background-position:  70% 30%;
+        background-size: fit-content;
+        min-width: 100vw;
+        height: 500px;
+        max-height: 50vh !important;
+        
+    }
+
+    .personal-card {
+        height: 50vh;
+        width: 100vw;
+        flex-shrink: 0;
+
+    }
+>>>>>>> ashehal
 }
