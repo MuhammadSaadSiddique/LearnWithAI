@@ -6,7 +6,7 @@ import PreAssessQuiz from '../../components/PreAssessQuiz/PreAssessQuiz';
 const UserInfo = () => {
     const [QuestionsDiv, setQuestionsDiv] = useState(false);
     return (
-        <div className='full-screen d-flex flex-col align-items-center justify-content-center text-light'>
+        <div className='full-screen d-flex flex-col align-items-center justify-content-center text-dark'>
             <section className={`${QuestionsDiv?" hidden":" block "} w-[40%]  `}>
                 <h2 className='text-center'>Quiz Builder</h2>
                 <p className='text-center'>Tailor Quizzes by Topic and Class</p>
@@ -33,7 +33,7 @@ const UserInfo = () => {
                     </InputGroup>
                     <div className='mt-3'>
                     {/* <Link to="/userInfo"> */}
-                    <button type='button' onClick={() => setQuestionsDiv(true)} className=' float-end btn btn-outline-light btn-md mx-0 mx-sm-2 my-2 my-sm-0 text-light hero-header-buttons'> Next </button>
+                    <button type='button' onClick={() => setQuestionsDiv(true)} className=' float-end btn btn-outline-dark btn-md mx-0 mx-sm-2 my-2 my-sm-0 text-dark hero-header-buttons'> Next </button>
                     {/* </Link> */}
                     </div>
                 </Form>
