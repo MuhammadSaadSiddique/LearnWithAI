@@ -1,35 +1,14 @@
-<<<<<<< HEAD
-import React from 'react'
-=======
->>>>>>> ashehal
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Routes, Route, Navigate} from 'react-router-dom'
 import Email from './Email'
-<<<<<<< HEAD
-=======
 import Password from './Password'
->>>>>>> ashehal
 import './Login.css'
 
 const Login = () => {
   return (
     <div className='full-screen d-flex align-items-center justify-content-center'>
-<<<<<<< HEAD
-        <Container className='d-flex align-items-center justify-content-center'>
-            <Row>
-                <Col className='lg'>
-                    <Row></Row>
-                    <Row>
-                        <Routes>
-                            <Route path="email/" element={<Email />} />
-                            <Route path="/" element={<Navigate to="email" />} />
-                        </Routes>
-                    </Row>
-                    <Row></Row>
-                </Col>
-=======
         <Container className='image-container m-0 p-0 b-0'>
 
         </Container>
@@ -54,7 +33,6 @@ const Login = () => {
                         <Row></Row>
                     </Col>
                 </Row>
->>>>>>> ashehal
             </Row>
         </Container>
     </div>  
