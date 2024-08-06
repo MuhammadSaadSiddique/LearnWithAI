@@ -1,0 +1,8 @@
+.full-screen {
+    height: 100vh;
+    width: 100vw !important;
+}
+
+.background {
+    background-image: linear-gradient(rgba(5,10,35,0.75),rgba(5,10,35,0.75)), url("./../utils/images/sign-up.jpg");
+}
