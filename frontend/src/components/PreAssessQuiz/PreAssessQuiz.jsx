@@ -1,7 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
+// const [data, setData] = useState([]);
+
+// useEffect(() => {
+//     const fetchData = async () => {
+//         try {
+//             const response = await axios.get('https://api.example.com/data');
+//             setData(response.data);
+//         } catch (error) {
+//             console.error('Error fetching data:', error);
+//         }
+//     };
+//     fetchData();
+// }, []);
 const Pre_Assess_Quiz =
     //  {
     //     "questions": 
