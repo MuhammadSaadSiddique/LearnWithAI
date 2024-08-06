@@ -61,6 +61,7 @@ const Generated_Quiz =
 const QuizGeneration = () => {
 
   const [SelectedAnswer, setSelectedAnswer] = useState({})
+  const [Submit, setSubmit] = useState(false);
   // const SelectedAnswer=useRef({});
 
   const handleChange = (index, value) => {
@@ -70,12 +71,13 @@ const QuizGeneration = () => {
   }
 
   return (
-    <div className=' d-flex flex-col align-items-center justify-content-center text-dark'>
-      <div className=' w-[60%]'>
-        <div className=' p-4 my-8 ' >
+    <div className='w-[100%] '>
+     { !Submit && <div className={` w-[100%]  d-flex flex-col align-items-center justify-content-center`} >
+        <div className=' p-2 m-12  w-[60%]' >
+          <h2 className='text-[#C2185B] font-semibold m-6 '>Quiz Generated On Given Topic</h2>
           {
             Generated_Quiz.map((Question, index) => (
-              <div key={index}>
+              <div key={index} className=' m-8'>
 
                 <Form.Label className=' font-semibold my-2 text-lg '>{index + 1}.   {Question.question}</Form.Label>
                 {
@@ -133,11 +135,18 @@ const QuizGeneration = () => {
           }
 
         </div>
+
+        <div className={`  bg-gray-200  w-[100%] fixed  bottom-0 z-10 text-center mt-10`}>
+          <button className=' btn btn-success my-2 shadow-md btn-md' onClick={() => setSubmit(true)}>Submit</button>
+        </div>
       </div>
-      <div className='  bg-gray-200  w-[100%] fixed  bottom-0 z-10 text-center mt-10'>
-      <button className=' btn btn-success my-2 shadow-md btn-md' onClick={()=>alert("you can not reverse ","hehe")}>Submit</button>
-      </div>
-      <MarkQuizAnswer SelectedAnswer={SelectedAnswer} Generated_Quiz={Generated_Quiz} />
+}
+     {Submit && <div className=' w-[100%]  d-flex flex-col align-items-center justify-content-center' >
+        <MarkQuizAnswer SelectedAnswer={SelectedAnswer} Generated_Quiz={Generated_Quiz} />
+      </div>}
+
+
+
     </div>
   )
 }

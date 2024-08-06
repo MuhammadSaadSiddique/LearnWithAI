@@ -145,10 +145,10 @@ const PreAssessQuiz = () => {
                             ))
                         }
                         <div className=' flex flex-row my-4 items-baseline'>
-                            < button type='button' onClick={() => { setShowAns(!ShowAns); setDisableRadio(true) }} className='  btn btn-danger btn-md mx-0 mx-sm-2 my-2 my-sm-0 text-light hero-header-buttons'> Submit Answer </button>
+                            < button type='button' onClick={() => { setShowAns(!ShowAns); setDisableRadio(true) }} className='  btn btn-danger px-4 btn-md mx-0 mx-sm-2 my-2 my-sm-0 text-light '> Submit Answer </button>
                             <p className={`${ShowAns ? "block" : "hidden"} font-semibold`}>{Question.answer}</p>
                         </div>
-                        < button type='button' onClick={()=>handleQuizQuestion(Question.answer)} className=' float-end btn btn-success btn-md mx-0 mx-sm-2 my-2 my-sm-0 text-light hero-header-buttons'> Next </button>
+                        < button type='button' onClick={()=>handleQuizQuestion(Question.answer)} className=' float-end btn btn-primary btn-md px-4 mx-0 mx-sm-2 my-2 my-sm-0 text-light '> Next </button>
                     </>
 
                 }
