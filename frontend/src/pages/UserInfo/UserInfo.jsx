@@ -62,7 +62,8 @@ const UserInfo = () => {
         educationLevel: '',
         topic: '',
         grade: '',
-        country: 'Pakistan'
+        country: 'Pakistan',
+        num_questions:'10'
     });
 
     const handleInputChange = (e) => {
