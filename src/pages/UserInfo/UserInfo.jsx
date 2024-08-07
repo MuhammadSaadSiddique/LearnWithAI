@@ -53,12 +53,12 @@ const UserInfo = () => {
         }
     };
     return (
-        <div className='full-screen d-flex flex-col align-items-center justify-content-center text-dark  '>
+        <div className='full-screen d-flex flex-col align-items-center justify-content-center text-dark '>
             {CheckInput != "" && <div className='alert alert-danger'>{CheckInput}</div>}
             <section className={`${QuestionsDiv ? " hidden" : " block "} w-[55%]  `}>
                 <h2 className='text-center text-[#C2185B]   '>Quiz Builder</h2>
                 <p className='text-center '>Tailor Quizzes by Topic and Class</p>
-                <Form className=' p-12 border border-spacing-2 rounded-xl   shadow-md '>
+                <Form className=' p-12 border border-spacing-2 rounded-xl   shadow-md  bg-white'>
                     <Form.Label htmlFor="class" className=' font-semibold text-lg text-[#D81B60]'>Your Education Level</Form.Label>
                     <Form.Select
                         aria-label="Default select example"

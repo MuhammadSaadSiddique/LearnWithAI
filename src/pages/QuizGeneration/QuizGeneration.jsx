@@ -74,10 +74,10 @@ const QuizGeneration = () => {
     <div className='w-[100%] '>
      { !Submit && <div className={` w-[100%]  d-flex flex-col align-items-center justify-content-center`} >
         <div className=' p-2 m-12  w-[60%]' >
-          <h2 className='text-[#C2185B] font-semibold m-6 '>Quiz Generated On Given Topic</h2>
+          <h2 className='text-[#C2185B] font-semibold m-2 '>Quiz Generated On Given Topic</h2>
           {
             Generated_Quiz.map((Question, index) => (
-              <div key={index} className=' m-8'>
+              <div key={index} className=' mx-10 my-8'>
 
                 <Form.Label className=' font-semibold my-2 text-lg '>{index + 1}.   {Question.question}</Form.Label>
                 {
