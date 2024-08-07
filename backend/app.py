@@ -59,9 +59,10 @@ def AI71model(prompt):
     return generated_response
 
 @app.post("/generate_quiz" )
-async def generate_quiz(request: QuizRequest):
-    # json_data = await request.json()
-    prompt = f"Generate preassessment {request.num_questions} quiz questions on the topic: {request.topic} with choices with correct options for grade {request.grade}  for education level {request.educationLevel}  in {request.country} and give response in json"
+async def generate_quiz(request: Request):
+    json_data = await request.json()
+    prompt = f"Generate preassessment {json_data["num_questions"]} quiz questions on the topic: {json_data["topic"]} with choices with correct options for grade {json_data["grade"]}  for education level {json_data["educationLevel"]}  in {json_data["country"]} and give response in json"
+    print(prompt)
     content = AI71model(prompt=prompt)
     return {"quiz": content}
 @app.post("/generate_lesson_plan" )
